@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us</title>
+  <style>
+    /* ── Reset & Base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 48px 44px;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+      animation: fadeUp 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0);    }
+    }
+
+    /* ── Header ── */
+    .card-header {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .icon-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #e94560, #0f3460);
+      margin-bottom: 16px;
+      box-shadow: 0 8px 24px rgba(233, 69, 96, 0.4);
+    }
+
+    .icon-wrap svg { width: 30px; height: 30px; fill: #fff; }
+
+    h1 {
+      color: #ffffff;
+      font-size: 1.9rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .subtitle {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.9rem;
+      margin-top: 6px;
+    }
+
+    /* ── Form Groups ── */
+    .form-group {
+      margin-bottom: 22px;
+    }
+
+    label {
+      display: block;
+      color: rgba(255,255,255,0.80);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    label span.required { color: #e94560; margin-left: 3px; }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap .field-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      fill: rgba(255,255,255,0.35);
+      pointer-events: none;
+      transition: fill 0.3s;
+    }
+
+    .textarea-wrap .field-icon {
+      top: 16px;
+      transform: none;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 13px 16px 13px 42px;
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.14);
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+      font-family: inherit;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 130px;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: rgba(255,255,255,0.28);
+    }
+
+    input:focus, textarea:focus {
+      border-color: #e94560;
+      background: rgba(255,255,255,0.11);
+      box-shadow: 0 0 0 3px rgba(233,69,96,0.18);
+    }
+
+    input:focus ~ .field-icon,
+    textarea:focus ~ .field-icon {
+      fill: #e94560;
+    }
+
+    /* ── Character Count ── */
+    .char-count {
+      text-align: right;
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.35);
+      margin-top: 5px;
+      transition: color 0.3s;
+    }
+
+    .char-count.warn  { color: #f7c948; }
+    .char-count.limit { color: #e94560; }
+
+    /* ── Buttons ── */
+    .btn-row {
+      display: flex;
+      gap: 14px;
+      margin-top: 32px;
+    }
+
+    button {
+      flex: 1;
+      padding: 14px 10px;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.25s, opacity 0.2s;
+    }
+
+    button:active { transform: scale(0.97); }
+
+    .btn-submit {
+      background: linear-gradient(135deg, #e94560, #c62a47);
+      color: #fff;
+      box-shadow: 0 6px 22px rgba(233, 69, 96, 0.45);
+    }
+
+    .btn-submit:hover {
+      opacity: 0.9;
+      box-shadow: 0 10px 28px rgba(233, 69, 96, 0.6);
+    }
+
+    .btn-clear {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.75);
+      border: 1.5px solid rgba(255,255,255,0.18);
+    }
+
+    .btn-clear:hover {
+      background: rgba(255,255,255,0.14);
+      color: #fff;
+      border-color: rgba(255,255,255,0.35);
+    }
+
+    /* ── Toast Notification ── */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #1e3a5f;
+      border-left: 4px solid #e94560;
+      color: #fff;
+      padding: 14px 20px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+      opacity: 0;
+      transform: translateY(20px);
+      pointer-events: none;
+      transition: opacity 0.4s, transform 0.4s;
+      max-width: 280px;
+      z-index: 999;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Validation ── */
+    .error-msg {
+      color: #e94560;
+      font-size: 0.78rem;
+      margin-top: 5px;
+      display: none;
+    }
+
+    .form-group.invalid input,
+    .form-group.invalid textarea {
+      border-color: #e94560;
+      box-shadow: 0 0 0 3px rgba(233,69,96,0.18);
+    }
+
+    .form-group.invalid .error-msg { display: block; }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .card { padding: 32px 22px; }
+      .btn-row { flex-direction: column-reverse; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <!-- Header -->
+    <div class="card-header">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1
+                   0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8
+                   5 8-5v2z"/>
+        </svg>
+      </div>
+      <h1>Contact Us</h1>
+      <p class="subtitle">We'd love to hear from you. Fill in the form below!</p>
+    </div>
+
+    <!-- Form -->
+    <form id="contactForm" novalidate>
+
+      <!-- Name -->
+      <div class="form-group" id="group-name">
+        <label for="name">Full Name <span class="required">*</span></label>
+        <div class="input-wrap">
+          <input type="text" id="name" placeholder="e.g. John Doe" maxlength="60" autocomplete="name"/>
+          <svg class="field-icon" viewBox="0 0 24 24">
+            <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12
+                     2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2
+                     0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+          </svg>
+        </div>
+        <div class="error-msg" id="err-name">Please enter your full name.</div>
+      </div>
+
+      <!-- Email -->
+      <div class="form-group" id="group-email">
+        <label for="email">Email Address <span class="required">*</span></label>
+        <div class="input-wrap">
+          <input type="email" id="email" placeholder="you@example.com" maxlength="100" autocomplete="email"/>
+          <svg class="field-icon" viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1
+                     0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4-8 5-8-5V6l8
+                     5 8-5v2z"/>
+          </svg>
+        </div>
+        <div class="error-msg" id="err-email">Please enter a valid email address.</div>
+      </div>
+
+      <!-- Message -->
+      <div class="form-group" id="group-message">
+        <label for="message">Message <span class="required">*</span></label>
+        <div class="input-wrap textarea-wrap">
+          <textarea id="message" placeholder="Write your message here..." maxlength="500"></textarea>
+          <svg class="field-icon" viewBox="0 0 24 24">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9
+                     2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+          </svg>
+        </div>
+        <div class="char-count" id="charCount">0 / 500</div>
+        <div class="error-msg" id="err-message">Please enter your message (at least 10 characters).</div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="btn-row">
+        <button type="button" class="btn-clear" onclick="clearForm()">
+          &#x2715; &nbsp;Clear
+        </button>
+        <button type="submit" class="btn-submit">
+          &#x27A4; &nbsp;Send Message
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    /* ── Character counter ── */
+    const msgField  = document.getElementById('message');
+    const charCount = document.getElementById('charCount');
+
+    msgField.addEventListener('input', updateCharCount);
+
+    function updateCharCount() {
+      const len = msgField.value.length;
+      const max = parseInt(msgField.getAttribute('maxlength'));
+      charCount.textContent = len + ' / ' + max;
+      charCount.className = 'char-count';
+      if (len > max * 0.9)       charCount.classList.add('limit');
+      else if (len > max * 0.75) charCount.classList.add('warn');
+    }
+
+    /* ── Clear All Fields ── */
+    function clearForm() {
+      document.getElementById('name').value    = '';
+      document.getElementById('email').value   = '';
+      document.getElementById('message').value = '';
+
+      // Remove any validation states
+      document.querySelectorAll('.form-group').forEach(function(g) {
+        g.classList.remove('invalid');
+      });
+
+      // Reset char counter
+      updateCharCount();
+
+      showToast('All fields have been cleared.');
+    }
+
+    /* ── Validation helpers ── */
+    function setValid(groupId)   { document.getElementById(groupId).classList.remove('invalid'); }
+    function setInvalid(groupId) { document.getElementById(groupId).classList.add('invalid');    }
+
+    function validateName() {
+      var v = document.getElementById('name').value.trim();
+      if (v.length < 2) { setInvalid('group-name');  return false; }
+      setValid('group-name'); return true;
+    }
+
+    function validateEmail() {
+      var v  = document.getElementById('email').value.trim();
+      var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!re.test(v)) { setInvalid('group-email'); return false; }
+      setValid('group-email'); return true;
+    }
+
+    function validateMessage() {
+      var v = document.getElementById('message').value.trim();
+      if (v.length < 10) { setInvalid('group-message'); return false; }
+      setValid('group-message'); return true;
+    }
+
+    /* Inline validation on blur */
+    document.getElementById('name').addEventListener('blur',    validateName);
+    document.getElementById('email').addEventListener('blur',   validateEmail);
+    document.getElementById('message').addEventListener('blur', validateMessage);
+
+    /* ── Form Submit ── */
+    document.getElementById('contactForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      var ok = validateName() & validateEmail() & validateMessage();
+      if (ok) {
+        showToast('Message sent successfully! We will get back to you soon.');
+        setTimeout(clearForm, 1800);
+      } else {
+        showToast('Please fix the highlighted fields.');
+      }
+    });
+
+    /* ── Toast ── */
+    var toastTimer;
+    function showToast(msg) {
+      var toast = document.getElementById('toast');
+      toast.textContent = msg;
+      toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function() { toast.classList.remove('show'); }, 3500);
+    }
+  </script>
+
+</body>
+</html>
